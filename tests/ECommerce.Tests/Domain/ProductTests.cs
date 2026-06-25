@@ -1,0 +1,417 @@
+using ECommerce.Domain.Entities;
+using ECommerce.Domain.Exceptions;
+
+namespace ECommerce.Tests.Domain
+{
+    public class ProductTests
+    {
+        [Fact]
+        public void Constructor_ShouldCreateProduct_WhenDataIsValid()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var name = "Laptop";
+            var description = "Gaming laptop";
+            var articleNumber = "ART-123";
+            var imageUrl = "laptop.jpg";
+            var price = 1000m;
+            var stockQuantity = 10;
+
+            // Act
+            var product = new Product(categoryId, 
+            name, 
+            description, 
+            articleNumber,
+            imageUrl,
+            price,
+            stockQuantity);
+
+            // Assert
+            Assert.Equal(categoryId, product.CategoryId);
+            Assert.Equal(name, product.Name);
+            Assert.Equal(description, product.Description);
+            Assert.Equal(articleNumber, product.ArticleNumber);
+            Assert.Equal(imageUrl, product.ImageUrl);
+            Assert.Equal(price, product.Price);
+            Assert.Equal(stockQuantity, product.StockQuantity);
+
+            Assert.True(product.IsActive);
+            Assert.NotEqual(Guid.Empty, product.Id);
+            Assert.NotEqual(default, product.CreatedAt);
+            Assert.Null(product.UpdatedAt);
+        }
+
+        [Fact]
+        public void Constructor_ShouldThrowException_WhenCategoryIdIsEmpty()
+        {
+            // Arrange
+            var categoryId = Guid.Empty;
+            var name = "Laptop";
+            var description = "Gaming laptop";
+            var articleNumber = "ART-123";
+            var imageUrl = "laptop.jpg";
+            var price = 1000m;
+            var stockQuantity = 10;
+
+            // Act & Assert
+            Assert.Throws<DomainException>(() =>
+            new Product(categoryId, 
+            name, 
+            description, 
+            articleNumber,
+            imageUrl,
+            price,
+            stockQuantity));
+        }
+
+        [Fact]
+        public void Constructor_ShouldThrowException_WhenNameIsEmpty()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var name = "";
+            var description = "Gaming laptop";
+            var articleNumber = "ART-123";
+            var imageUrl = "laptop.jpg";
+            var price = 1000m;
+            var stockQuantity = 10;
+
+            // Act & Assert
+            Assert.Throws<DomainException>(() =>
+            new Product(categoryId, 
+            name, 
+            description, 
+            articleNumber,
+            imageUrl,
+            price,
+            stockQuantity));
+        }
+
+        [Fact]
+        public void Constructor_ShouldThrowException_WhenArticleNumberIsEmpty()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var name = "Laptop";
+            var description = "Gaming laptop";
+            var articleNumber = "";
+            var imageUrl = "laptop.jpg";
+            var price = 1000m;
+            var stockQuantity = 10;
+
+            // Act & Assert
+            Assert.Throws<DomainException>(() =>
+            new Product(categoryId, 
+            name, 
+            description, 
+            articleNumber,
+            imageUrl,
+            price,
+            stockQuantity));
+        }
+
+        [Fact]
+        public void Constructor_ShouldThrowException_WhenImageUrlIsEmpty()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var name = "Laptop";
+            var description = "Gaming laptop";
+            var articleNumber = "ART-123";
+            var imageUrl = "";
+            var price = 1000m;
+            var stockQuantity = 10;
+
+            // Act & Assert
+            Assert.Throws<DomainException>(() =>
+            new Product(categoryId, 
+            name, 
+            description, 
+            articleNumber,
+            imageUrl,
+            price,
+            stockQuantity));
+        }
+
+        [Fact]
+        public void Constructor_ShouldThrowException_WhenPriceIsZeroOrNegative()
+        {
+            // Arrang
+            var categoryId = Guid.NewGuid();
+            var name = "Laptop";
+            var description = "Gaming laptop";
+            var articleNumber = "ART-123";
+            var imageUrl = "laptop.jpg";
+            var price = 0;
+            var stockQuantity = 10;
+
+            // Act & Assert
+            Assert.Throws<DomainException>(() =>
+            new Product(
+                categoryId,
+                name,
+                description,
+                articleNumber,
+                imageUrl,
+                price,
+                stockQuantity
+            ));
+        }
+
+        [Fact]
+        public void Constructor_ShouldThrowException_WhenStockQuantityIsNegative()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var name = "Laptop";
+            var description = "Gaming laptop";
+            var articleNumber = "ART-123";
+            var imageUrl = "laptop.jpg";
+            var price = 1000m;
+            var stockQuantity = -10;
+
+            // Act & Assert
+            Assert.Throws<DomainException>(() =>
+            new Product(
+                categoryId,
+                name,
+                description,
+                articleNumber,
+                imageUrl,
+                price,
+                stockQuantity
+            ));
+        }
+
+        [Fact]
+        public void Edit_ShouldUpdateProduct_WhenDataIsValid ()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var product = new Product(categoryId, "Laptop", "Gaming laptop", "ART-123", "laptop.jpg", 1000m, 10);
+
+            // Act
+            product.Edit(
+                categoryId,
+                "Camputer",
+                "Office camputer",
+                "ART-999",
+                "camputer.jpg",
+                5000m,
+                15
+            );
+
+            // Assert
+            Assert.Equal(categoryId, product.CategoryId);
+            Assert.Equal("Camputer", product.Name);
+            Assert.Equal("Office camputer", product.Description);
+            Assert.Equal("ART-999", product.ArticleNumber);
+            Assert.Equal("camputer.jpg", product.ImageUrl);
+            Assert.Equal(5000m, product.Price);
+            Assert.Equal(15, product.StockQuantity);
+            Assert.NotNull(product.UpdatedAt);
+        }
+
+        [Fact]
+        public void Edit_ShouldThrowException_WhenNameIsEmpty()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var product = new Product(categoryId, 
+            "Laptop", 
+            "Gaming laptop", 
+            "ART-123", 
+            "laptop.jpg", 
+            1000m, 
+            10);
+
+            // Act & Assert
+            Assert.Throws<DomainException>(() =>
+            product.Edit(
+                categoryId,
+                "",
+                "Office camputer",
+                "ART-999",
+                "camputer.jpg",
+                5000m,
+                15
+            ));
+        }
+
+        [Fact]
+        public void Edit_ShouldThrowException_WhenPriceIsZero()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var product = new Product(
+                categoryId, 
+                "Laptop", 
+                "Gaming laptop", 
+                "ART-123", 
+                "laptop.jpg", 
+                1000m, 
+                10);
+
+            // Act & Assert
+            Assert.Throws<DomainException>(() =>
+            product.Edit(
+                categoryId,
+                "Camputer",
+                "Office camputer",
+                "ART-999",
+                "camputer.jpg",
+                0,
+                15
+            ));
+        }
+
+        [Fact]
+        public void Edit_ShouldThrowException_WhenPriceIsNegative()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var product = new Product(
+                categoryId, 
+                "Laptop", 
+                "Gaming laptop", 
+                "ART-123", 
+                "laptop.jpg", 
+                1000m, 
+                10);
+
+            // Act & Assert
+            Assert.Throws<DomainException>(() =>
+            product.Edit(
+                categoryId,
+                "Camputer",
+                "Office camputer",
+                "ART-999",
+                "camputer.jpg",
+                -100,
+                15
+            ));
+        }
+
+        [Fact]
+        public void Edit_ShouldThrowException_WhenCategoryIdIsEmpty()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var product = new Product(
+                categoryId, 
+                "Laptop", 
+                "Gaming laptop", 
+                "ART-123", 
+                "laptop.jpg", 
+                1000m, 
+                10);
+
+            // Act & Assert
+            Assert.Throws<DomainException>(() =>
+            product.Edit(
+                Guid.Empty,
+                "Camputer",
+                "Office camputer",
+                "ART-999",
+                "camputer.jpg",
+                1000m,
+                15
+            ));
+        }
+
+        [Fact]
+        public void Edit_ShouldThrowException_WhenStockQuantityIsNegative()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var product = new Product(
+                categoryId, 
+                "Laptop", 
+                "Gaming laptop", 
+                "ART-123", 
+                "laptop.jpg", 
+                1000m, 
+                10);
+
+            // Act & Assert
+            Assert.Throws<DomainException>(() =>
+            product.Edit(
+                categoryId,
+                "Camputer",
+                "Office camputer",
+                "ART-999",
+                "camputer.jpg",
+                1000m,
+                -10
+            ));
+        }
+
+        [Fact]
+        public void Activate_ShouldSetIsActiveToTrue()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var product = new Product(
+                categoryId, 
+                "Laptop", 
+                "Gaming laptop", 
+                "ART-123", 
+                "laptop.jpg", 
+                1000m, 
+                10);
+
+            // Act
+            product.Deactivate();
+            product.Activate();
+
+            // Assert
+            Assert.True(product.IsActive);
+            Assert.NotNull(product.UpdatedAt);
+        }
+
+        [Fact]
+        public void Deactivate_ShouldSetIsActiveToFalse()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var product = new Product(
+                categoryId, 
+                "Laptop", 
+                "Gaming laptop", 
+                "ART-123", 
+                "laptop.jpg", 
+                1000m, 
+                10);
+
+            // Act
+            product.Deactivate();
+
+            // Assert
+            Assert.False(product.IsActive);
+            Assert.NotNull(product.UpdatedAt);
+        }
+
+        [Fact]
+        public void SoftDelete_ShouldMarkProductAsDeleted()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var product = new Product(
+                categoryId, 
+                "Laptop", 
+                "Gaming laptop", 
+                "ART-123", 
+                "laptop.jpg", 
+                1000m, 
+                10);
+
+            // Act
+            product.SoftDelete();
+
+            // Assert
+            Assert.True(product.IsDeleted);
+            Assert.False(product.IsActive);
+            Assert.NotNull(product.DeletedAt);
+        }
+    }
+}
