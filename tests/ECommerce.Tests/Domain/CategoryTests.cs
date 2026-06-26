@@ -1,4 +1,3 @@
-using System.Reflection;
 using ECommerce.Domain.Entities;
 using ECommerce.Domain.Exceptions;
 
