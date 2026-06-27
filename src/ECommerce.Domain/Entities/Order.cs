@@ -1,4 +1,6 @@
-using System.Linq;
+using ECommerce.Domain.Enums;
+using ECommerce.Domain.ValueObjects;
+using ECommerce.Domain.Exceptions;
 
 namespace ECommerce.Domain.Entities
 {

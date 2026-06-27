@@ -1,3 +1,5 @@
+using ECommerce.Domain.Exceptions;
+
 namespace ECommerce.Domain.Entities
 {
     public class Customer
@@ -86,12 +88,13 @@ namespace ECommerce.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void Edit(string firstName, string lastName, string? phoneNumber, string? address)
+        public void Edit(string firstName, string lastName, string email, string? phoneNumber, string? address)
         {
             EnsureNotDeleted();
 
             FirstName = firstName?.Trim();
             LastName = lastName?.Trim();
+            Email = email?.Trim();
             PhoneNumber = phoneNumber?.Trim();
             Address = address?.Trim();
 

@@ -1,3 +1,5 @@
+using ECommerce.Domain.Exceptions;
+
 namespace ECommerce.Domain.Entities
 {
     public class Product
