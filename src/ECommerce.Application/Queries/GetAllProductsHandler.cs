@@ -5,16 +5,16 @@ using System.Linq;
 
 namespace ECommerce.Application.Queries
 {
-    public sealed class GetAllProductHandler
+    public sealed class GetAllProductsHandler
     {
         private readonly IProductRepository _productRepository;
 
-        public GetAllProductHandler(IProductRepository productRepository)
+        public GetAllProductsHandler(IProductRepository productRepository)
         {
             _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
         }
 
-        public async Task<Result<IReadOnlyList<ProductDto>>> HandleAsync(GetAllProductQuery query, CancellationToken ct = default)
+        public async Task<Result<IReadOnlyList<ProductDto>>> HandleAsync(GetAllProductsQuery query, CancellationToken ct = default)
         {
             var products = await _productRepository.GetAllAsync(ct);
 
