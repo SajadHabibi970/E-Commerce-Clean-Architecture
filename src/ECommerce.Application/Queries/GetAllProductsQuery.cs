@@ -1,4 +1,4 @@
 namespace ECommerce.Application.Queries
 {
-    public sealed record GetAllProductQuery();
+    public sealed record GetAllProductsQuery();
 }
