@@ -9,6 +9,5 @@ namespace ECommerce.Application.Interfaces
         
         Task AddAsync(Product product, CancellationToken ct = default);
         Task UpdateAsync(Product product, CancellationToken ct = default);
-        Task DeleteAsync(Product product, CancellationToken ct = default);
     }
 }
