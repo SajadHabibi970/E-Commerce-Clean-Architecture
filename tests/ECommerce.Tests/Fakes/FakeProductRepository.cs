@@ -28,10 +28,5 @@ namespace ECommerce.Tests.Fakes
         {
             return Task.CompletedTask;
         }
-
-        public Task DeleteAsync(Product product, CancellationToken ct = default)
-        {
-            return Task.CompletedTask;
-        }
     }
 }
