@@ -1,5 +1,6 @@
 using ECommerce.Api.Contracts.Products;
 using ECommerce.Application.Commands;
+using ECommerce.Application.Common;
 using ECommerce.Application.DTOs;
 using ECommerce.Application.Queries;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -45,6 +46,16 @@ namespace ECommerce.Api.Endpoints
 
             var result = await handler.HandleAsync(new GetProductByIdQuery(id), ct);
 
+            if (result.ErrorType == ErrorType.NotFound)
+            {
+                return TypedResults.Problem(new ProblemDetails
+                {
+                    Title = "Product not found",
+                    Status = StatusCodes.Status404NotFound,
+                    Detail = "Product was not found"
+                });
+            }
+
             if (result.IsFailure)
             {
                 return TypedResults.Problem(new ProblemDetails
@@ -52,16 +63,6 @@ namespace ECommerce.Api.Endpoints
                     Title = "Get product failed",
                     Status = StatusCodes.Status400BadRequest,
                     Detail = result.Error
-                });
-            }
-
-            if (result.Value is null)
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Product not found",
-                    Status = StatusCodes.Status404NotFound,
-                    Detail = "Product was not found"
                 });
             }
 
@@ -250,6 +251,16 @@ namespace ECommerce.Api.Endpoints
 
             var result = await handler.HandleAsync(cmd, ct);
 
+            if (result.ErrorType == ErrorType.NotFound)
+            {
+                return TypedResults.Problem(new ProblemDetails
+                {
+                    Title = "Product not Found",
+                    Status = StatusCodes.Status404NotFound,
+                    Detail = "Product was not found"
+                });
+            }
+
             if (result.IsFailure)
             {
                 return TypedResults.Problem(new ProblemDetails
@@ -281,6 +292,16 @@ namespace ECommerce.Api.Endpoints
             var command = new DeleteProductCommand(id);
 
             var result = await handler.HandleAsync(command, ct);
+
+            if (result.ErrorType == ErrorType.NotFound)
+            {
+                return TypedResults.Problem(new ProblemDetails
+                {
+                    Title = "Product not found",
+                    Status = StatusCodes.Status404NotFound,
+                    Detail = "Product was not found"
+                });
+            }
 
             if (result.IsFailure)
             {

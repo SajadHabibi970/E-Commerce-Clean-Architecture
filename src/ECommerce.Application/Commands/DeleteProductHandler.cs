@@ -25,7 +25,7 @@ namespace ECommerce.Application.Commands
 
             if (product is null)
             {
-                return Result<Guid>.Failure("Product not found");
+                return Result<Guid>.NotFound("Product not found");
             }
 
             product.SoftDelete();
