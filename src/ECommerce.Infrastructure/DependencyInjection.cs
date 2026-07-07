@@ -15,7 +15,7 @@ namespace ECommerce.Infrastructure
         )
         {
             services.AddDbContext<ECommerceDbContext>(options =>
-            options.UseSqlite(configuration.GetConnectionString("DefualtConnection")));
+            options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IProductRepository, ProductRepository>();
 
