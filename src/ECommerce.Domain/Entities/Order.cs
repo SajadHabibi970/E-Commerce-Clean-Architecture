@@ -55,13 +55,14 @@ namespace ECommerce.Domain.Entities
             }
         }
 
-        public void AddOrderItem(OrderItem item)
+        public void AddOrderItem(OrderItem item, Product product)
         {
             if(item == null)
             {
                 throw new DomainException("OrderItem cannot be null");
             }
 
+            product.ReduceStock(item.Quantity);
             OrderItems.Add(item);
             CalculateTotalAmount();
             UpdatedAt = DateTime.UtcNow;

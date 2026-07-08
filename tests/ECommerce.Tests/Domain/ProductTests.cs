@@ -1,5 +1,6 @@
 using ECommerce.Domain.Entities;
 using ECommerce.Domain.Exceptions;
+using ECommerce.Domain.ValueObjects;
 
 namespace ECommerce.Tests.Domain
 {
@@ -412,6 +413,47 @@ namespace ECommerce.Tests.Domain
             Assert.True(product.IsDeleted);
             Assert.False(product.IsActive);
             Assert.NotNull(product.DeletedAt);
+        }
+
+        [Fact]
+        public void ReduceStock_ShouldDecreaseStockQuantity_WhenEnoughStockIsAvailable()
+        {
+            // Arrange
+            var product = new Product(
+                Guid.NewGuid(),
+                "Laptop",
+                "Gaming laptop",
+                "ART-001",
+                "latop.jpg",
+                1000m,
+                10
+            );
+
+            // Act
+            product.ReduceStock(3);
+
+            // Assert
+            Assert.Equal(7, product.StockQuantity);
+            Assert.NotNull(product.UpdatedAt);
+        }
+
+        [Fact]
+        public void ReduceStock_ShouldThrowProductOutOfStockException_WhenNotEnoughStock()
+        {
+            // Arrange
+            var product = new Product(
+                Guid.NewGuid(),
+                "Laptop",
+                "Gaming laptop",
+                "ART-001",
+                "latop.jpg",
+                1000m,
+                1
+            );
+
+            // Act & Assert
+            Assert.Throws<ProductOutOfStockException>(() =>
+            product.ReduceStock(3));
         }
     }
 }
