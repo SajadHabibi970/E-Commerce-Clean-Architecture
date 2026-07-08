@@ -20,49 +20,52 @@ namespace ECommerce.Domain.Entities
 
     public Product (Guid categoryId, string name, string? description, string articleNumber, string imageUrl, decimal price, int stockQuantity)
         {
+            var trimmedName = name.Trim();
+            var trimmedArticleNumber = articleNumber.Trim();
+            var trimmedImageUrl = imageUrl.Trim();
+            EnsureValid(categoryId, trimmedName, trimmedArticleNumber, trimmedImageUrl, price, stockQuantity);
+
             Id = Guid.NewGuid();
             CategoryId = categoryId;
-            Name = name.Trim();
+            Name = trimmedName;
             Description = description?.Trim();
-            ArticleNumber = articleNumber.Trim();
-            ImageUrl = imageUrl.Trim();
+            ArticleNumber = trimmedArticleNumber;
+            ImageUrl = trimmedImageUrl;
             Price = price;
             StockQuantity = stockQuantity;
             IsActive = true;
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = null;
-
-            EnsureValid();
         }
 
-        private void EnsureValid()
+        private static void EnsureValid(Guid categoryId, string name, string articleNumber, string imageUrl, decimal price, int stockQuantity)
         {
-            if (CategoryId == Guid.Empty)
+            if (categoryId == Guid.Empty)
             {
                 throw new DomainException("CategoryId is required");
             }
 
-            if (string.IsNullOrWhiteSpace(Name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 throw new DomainException("Product name cannot be empty");
             }
 
-            if (string.IsNullOrWhiteSpace(ArticleNumber))
+            if (string.IsNullOrWhiteSpace(articleNumber))
             {
                 throw new DomainException("ArticleNumber cannot be empty");
             }
 
-            if (string.IsNullOrWhiteSpace(ImageUrl))
+            if (string.IsNullOrWhiteSpace(imageUrl))
             {
                 throw new DomainException("ImageUrl is required");
             }
 
-            if (Price <= 0)
+            if (price <= 0)
             {
                 throw new DomainException("Price must be greater than 0");
             }
 
-            if (StockQuantity < 0)
+            if (stockQuantity < 0)
             {
                 throw new DomainException("StockQuantity cannot be negative");
             }
@@ -106,16 +109,19 @@ namespace ECommerce.Domain.Entities
         {
             EnsureNotDeleted();
 
+            var trimmedName = name.Trim();
+            var trimmedArticleNumber = articleNumber.Trim();
+            var trimmedImageUrl = imageUrl.Trim();
+            EnsureValid(categoryId, trimmedName, trimmedArticleNumber, trimmedImageUrl, price, stockQuantity);
+
             CategoryId = categoryId;
-            Name = name.Trim();
+            Name = trimmedName;
             Description = description?.Trim();
-            ArticleNumber = articleNumber.Trim();
-            ImageUrl = imageUrl.Trim();
+            ArticleNumber = trimmedArticleNumber;
+            ImageUrl = trimmedImageUrl;
             Price = price;
             StockQuantity = stockQuantity;
             UpdatedAt = DateTime.UtcNow;
-
-            EnsureValid();
         }
 
         public void SoftDelete()

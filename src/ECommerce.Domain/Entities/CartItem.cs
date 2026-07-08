@@ -50,10 +50,13 @@ namespace ECommerce.Domain.Entities
 
         public void ChangeQuantity(int quantity)
         {
+            if (quantity <= 0)
+            {
+                throw new DomainException("Quantity must be greater than 0");
+            }
+
             Quantity = quantity;
             UpdatedAt = DateTime.UtcNow;
-
-            EnsureValid();
         }
     }
 }

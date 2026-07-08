@@ -17,48 +17,51 @@ namespace ECommerce.Domain.Entities
 
         public OrderItem(Guid orderId, Guid productId, string productName, string articleNumber, int quantity, decimal unitPrice)
         {
+            var trimmedProductName = productName.Trim();
+            var trimmedArticleNumber = articleNumber.Trim();
+
+            EnsureValid(orderId, productId, trimmedProductName, trimmedArticleNumber, quantity, unitPrice);
+
             Id = Guid.NewGuid();
             OrderId = orderId;
             ProductId = productId;
-            ProductName = productName.Trim();
-            ArticleNumber = articleNumber.Trim();
+            ProductName = trimmedProductName;
+            ArticleNumber = trimmedArticleNumber;
             Quantity = quantity;
             UnitPrice = unitPrice;
             TotalPrice = quantity * unitPrice;
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = null;
-
-            EnsureValid();
         }
 
-        private void EnsureValid()
+        private static void EnsureValid(Guid orderId, Guid productId, string productName, string articleNumber, int quantity, decimal unitPrice)
         {
-            if (OrderId == Guid.Empty)
+            if (orderId == Guid.Empty)
             {
                 throw new DomainException("OrderId is required");
             }
 
-            if (ProductId == Guid.Empty)
+            if (productId == Guid.Empty)
             {
                 throw new DomainException("ProductId is required");
             }
 
-            if (string.IsNullOrWhiteSpace(ProductName))
+            if (string.IsNullOrWhiteSpace(productName))
             {
                 throw new DomainException("ProductName cannot be empty");
             }
             
-            if (string.IsNullOrWhiteSpace(ArticleNumber))
+            if (string.IsNullOrWhiteSpace(articleNumber))
             {
                 throw new DomainException("ArticleNumber cannot be empty");
             }
 
-            if (Quantity <= 0)
+            if (quantity <= 0)
             {
                 throw new DomainException("Quantity must be greater than 0");
             }
 
-            if (UnitPrice <= 0)
+            if (unitPrice <= 0)
             {
                 throw new DomainException("UnitPrice must be greater than 0");
             }

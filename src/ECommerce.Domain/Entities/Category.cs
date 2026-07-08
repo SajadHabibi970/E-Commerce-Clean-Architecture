@@ -17,19 +17,21 @@ namespace ECommerce.Domain.Entities
 
         public Category(string name, string? description)
         {
+            var trimmedName = name.Trim();
+
+            EnsureValid(trimmedName);
+
             Id = Guid.NewGuid();
-            Name = name.Trim();
+            Name = trimmedName;
             Description = description?.Trim();
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = null;
             IsActive = true;
-
-            EnsureValid();
         }
 
-        private void EnsureValid()
+        private static void EnsureValid(string name)
         {
-            if (string.IsNullOrWhiteSpace(Name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 throw new DomainException("Category name cannot be empty");
             }
@@ -72,11 +74,13 @@ namespace ECommerce.Domain.Entities
         {
             EnsureNotDeleted();
 
-            Name = name.Trim();
+            var trimmedName = name.Trim();
+
+            EnsureValid(trimmedName);
+
+            Name = trimmedName;
             Description = description?.Trim();
             UpdatedAt = DateTime.UtcNow;
-
-            EnsureValid();
         }
 
         public void SoftDelete()
