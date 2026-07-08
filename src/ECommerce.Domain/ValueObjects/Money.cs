@@ -1,14 +1,15 @@
+using ECommerce.Domain.Exceptions;
+
 namespace ECommerce.Domain.ValueObjects
 {
-    public class Money
+    public sealed record Money(decimal Amount, string Currency)
     {
-        public decimal Amount { get; private set;}
-        public string Currency { get; private set; }
+        public decimal Amount { get; init; } = Amount >= 0
+        ? Amount
+        : throw new DomainException("Amount cannot be negative");
 
-        public Money ( decimal amount, string currency)
-        {
-            Amount = amount;
-            Currency = currency;
-        }
+        public string Currency { get; init; } = !string.IsNullOrWhiteSpace(Currency)
+        ? Currency
+        : throw new DomainException("Currency is required");
     }
 }
