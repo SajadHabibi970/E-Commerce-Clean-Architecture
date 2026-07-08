@@ -18,37 +18,41 @@ namespace ECommerce.Domain.Entities
 
         public Customer(string firstName, string lastName, string email, string? phoneNumber, string? address)
         {
+            var trimmedFirstName = firstName.Trim();
+            var trimmedLastName = lastName.Trim();
+            var trimmedEmail = email.Trim();
+
+            EnsureValid(trimmedFirstName, trimmedLastName, trimmedEmail);
+
             Id = Guid.NewGuid();
-            FirstName = firstName?.Trim();
-            LastName = lastName?.Trim();
-            Email = email?.Trim();
+            FirstName = trimmedFirstName;
+            LastName = trimmedLastName;
+            Email = trimmedEmail;
             PhoneNumber = phoneNumber?.Trim();
             Address = address?.Trim();
             IsActive = true;
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = null;
-
-            EnsureValid();
         }
 
-        private void EnsureValid()
+        private static void EnsureValid(string firstName, string lastName, string email)
         {
-            if (string.IsNullOrWhiteSpace(FirstName))
+            if (string.IsNullOrWhiteSpace(firstName))
             {
                 throw new DomainException("FirstName cannot be empty");
             }
             
-            if (string.IsNullOrWhiteSpace(LastName))
+            if (string.IsNullOrWhiteSpace(lastName))
             {
                 throw new DomainException("LastName cannot be empty");
             }
             
-            if (string.IsNullOrWhiteSpace(Email))
+            if (string.IsNullOrWhiteSpace(email))
             {
                 throw new DomainException("Email cannot be empty");
             }
 
-            if (!Email.Contains("@"))
+            if (!email.Contains("@"))
             {
                 throw new DomainException("Email must contain '@'");
             }
@@ -92,15 +96,19 @@ namespace ECommerce.Domain.Entities
         {
             EnsureNotDeleted();
 
-            FirstName = firstName?.Trim();
-            LastName = lastName?.Trim();
-            Email = email?.Trim();
+            var trimmedFirstName = firstName.Trim();
+            var trimmedLastName = lastName.Trim();
+            var trimmedEmail = email.Trim();
+
+            EnsureValid(trimmedFirstName, trimmedLastName, trimmedEmail);
+
+            FirstName = trimmedFirstName;
+            LastName = trimmedLastName;
+            Email = trimmedEmail;
             PhoneNumber = phoneNumber?.Trim();
             Address = address?.Trim();
 
             UpdatedAt = DateTime.UtcNow;
-
-            EnsureValid();
         }
 
         public void SoftDelete()
