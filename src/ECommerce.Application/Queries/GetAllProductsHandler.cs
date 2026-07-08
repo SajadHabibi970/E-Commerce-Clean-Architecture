@@ -18,17 +18,7 @@ namespace ECommerce.Application.Queries
         {
             var products = await _productRepository.GetAllAsync(ct);
 
-            var dtos = products.Select(product => new ProductDto
-            {
-                Id = product.Id,
-                CategoryId = product.CategoryId,
-                Name = product.Name,
-                Description = product.Description,
-                ArticleNumber = product.ArticleNumber,
-                ImageUrl = product.ImageUrl,
-                Price = product.Price,
-                StockQuantity = product.StockQuantity
-            }).ToList();
+            var dtos = products.Select(product => product.ToDto()).ToList();
 
             return Result<IReadOnlyList<ProductDto>>.Success(dtos);
         }

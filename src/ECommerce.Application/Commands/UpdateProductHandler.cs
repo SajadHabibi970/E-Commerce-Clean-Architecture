@@ -1,5 +1,6 @@
 using ECommerce.Application.Interfaces;
 using ECommerce.Application.Common;
+using ECommerce.Domain.Exceptions;
 
 namespace ECommerce.Application.Commands
 {
@@ -21,11 +22,13 @@ namespace ECommerce.Application.Commands
                 return Result<Guid>.Failure("Product id cannot be empty");
             }
 
-            var product = await _productRepository.GetByIdAsync(cmd.Id, ct);
+            try
+            {
+                var product = await _productRepository.GetByIdAsync(cmd.Id, ct);
 
                 if (product is null)
                 {
-                    return Result<Guid>.Failure("Product not found");
+                    return Result<Guid>.NotFound("Product not found");
                 }
 
                 product.Edit(
@@ -41,6 +44,12 @@ namespace ECommerce.Application.Commands
                 await _productRepository.UpdateAsync(product, ct);
 
                 return Result<Guid>.Success(product.Id);
+            }
+
+            catch(DomainException ex)
+            {
+                return Result<Guid>.Failure(ex.Message);
+            }
             
         }
     }

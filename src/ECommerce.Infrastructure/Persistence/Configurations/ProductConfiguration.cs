@@ -34,6 +34,8 @@ namespace ECommerce.Infrastructure.Persistence.Configurations
 
             builder.Property(p => p.IsDeleted)
             .HasDefaultValue(false);
+
+            builder.HasQueryFilter(p => !p.IsDeleted);
         }
     }
 }

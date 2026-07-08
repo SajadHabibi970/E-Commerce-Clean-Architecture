@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D65AC418-3127-417D-AE55-78A020AF07EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerse.Domain", "src\ECommerce.Domain\ECommerse.Domain.csproj", "{11B1BBD6-FF76-4B66-8375-9CD88D873566}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Domain", "src\ECommerce.Domain\ECommerce.Domain.csproj", "{11B1BBD6-FF76-4B66-8375-9CD88D873566}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8E4C301E-1CEC-4B54-892C-DB97ECABFA1B}"
 EndProject
@@ -21,9 +21,6 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{11B1BBD6-FF76-4B66-8375-9CD88D873566}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -46,6 +43,9 @@ Global
 		{10EFB611-1860-413C-BB04-740BB0C41569}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10EFB611-1860-413C-BB04-740BB0C41569}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10EFB611-1860-413C-BB04-740BB0C41569}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{11B1BBD6-FF76-4B66-8375-9CD88D873566} = {D65AC418-3127-417D-AE55-78A020AF07EB}

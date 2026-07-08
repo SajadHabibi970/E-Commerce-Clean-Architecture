@@ -1,6 +1,7 @@
 using ECommerce.Application.Common;
 using ECommerce.Application.Interfaces;
 using ECommerce.Domain.Entities;
+using ECommerce.Domain.Exceptions;
 
 namespace ECommerce.Application.Commands
 {
@@ -16,8 +17,10 @@ namespace ECommerce.Application.Commands
         public async Task<Result<Guid>> HandleAsync(CreateProductCommand cmd, CancellationToken ct = default)
         {
             ArgumentNullException.ThrowIfNull(cmd);
-            
-            var product = new Product(
+
+            try
+            {
+                var product = new Product(
                 cmd.CategoryId,
                 cmd.Name,
                 cmd.Description,
@@ -25,10 +28,16 @@ namespace ECommerce.Application.Commands
                 cmd.ImageUrl,
                 cmd.Price,
                 cmd.StockQuantity
-            );
+                );
 
-            await _productRepository.AddAsync(product, ct);
-            return Result<Guid>.Success(product.Id);
+                await _productRepository.AddAsync(product, ct);
+                return Result<Guid>.Success(product.Id);
+            }
+            
+            catch(DomainException ex)
+            {
+                return Result<Guid>.Failure(ex.Message);
+            }
         }
     }
 }

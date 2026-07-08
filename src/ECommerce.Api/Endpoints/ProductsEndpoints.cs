@@ -1,5 +1,6 @@
 using ECommerce.Api.Contracts.Products;
 using ECommerce.Application.Commands;
+using ECommerce.Application.Common;
 using ECommerce.Application.DTOs;
 using ECommerce.Application.Queries;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -33,17 +34,17 @@ namespace ECommerce.Api.Endpoints
             [FromServices] GetProductByIdHandler handler,
             CancellationToken ct)
         {
-            if (id == Guid.Empty)
+            var result = await handler.HandleAsync(new GetProductByIdQuery(id), ct);
+
+            if (result.ErrorType == ErrorType.NotFound)
             {
                 return TypedResults.Problem(new ProblemDetails
                 {
-                    Title = "Empty Id",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "Id cannot be empty"
+                    Title = "Product not found",
+                    Status = StatusCodes.Status404NotFound,
+                    Detail = "Product was not found"
                 });
             }
-
-            var result = await handler.HandleAsync(new GetProductByIdQuery(id), ct);
 
             if (result.IsFailure)
             {
@@ -55,16 +56,6 @@ namespace ECommerce.Api.Endpoints
                 });
             }
 
-            if (result.Value is null)
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Product not found",
-                    Status = StatusCodes.Status404NotFound,
-                    Detail = "Product was not found"
-                });
-            }
-
             return TypedResults.Ok(result.Value);
         }
 
@@ -73,66 +64,6 @@ namespace ECommerce.Api.Endpoints
             [FromServices] CreateProductHandler handler,
             CancellationToken ct)
         {
-            if (request.CategoryId == Guid.Empty)
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Empty CategoryId",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "CategoryId cannot be empty"
-                });
-            }
-
-            if (string.IsNullOrWhiteSpace(request.Name))
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Invalid name",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "Name cannot be empty"
-                });
-            }
-
-            if (string.IsNullOrWhiteSpace(request.ArticleNumber))
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Invalid article number",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "ArticleNumber cannot be empty"
-                });
-            }
-
-            if (string.IsNullOrWhiteSpace(request.ImageUrl))
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Invalid image url",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "ImageUrl cannot be empty"
-                });
-            }
-
-            if (request.Price <= 0)
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Invalid price",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "Price must be greater than zero"
-                });
-            }
-
-            if (request.StockQuantity < 0)
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Invalid stock quantity",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "StockQuantity cannot be negative"
-                });
-            }
-
             var cmd = new CreateProductCommand(
                 request.CategoryId,
                 request.Name,
@@ -167,76 +98,6 @@ namespace ECommerce.Api.Endpoints
             [FromServices] UpdateProductHandler handler,
             CancellationToken ct)
         {
-            if (id == Guid.Empty)
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Empty Id",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "Id cannot be empty"
-                });
-            }
-
-            if (request.CategoryId == Guid.Empty)
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Empty CategoryId",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "CategoryId cannot be empty"
-                });
-            }
-
-            if (string.IsNullOrWhiteSpace(request.Name))
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Invalid name",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "Name cannot be empty"
-                });
-            }
-
-            if (string.IsNullOrWhiteSpace(request.ArticleNumber))
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Invalid article number",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "ArticleNumber cannot be empty"
-                });
-            }
-
-            if (string.IsNullOrWhiteSpace(request.ImageUrl))
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Invalid image url",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "ImageUrl cannot be empty"
-                });
-            }
-
-            if (request.Price <= 0)
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Invalid price",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "Price must be greater than zero"
-                });
-            }
-
-            if (request.StockQuantity < 0)
-            {
-                return TypedResults.Problem(new ProblemDetails
-                {
-                    Title = "Invalid stock quantity",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "StockQuantity cannot be negative"
-                });
-            }
-
             var cmd = new UpdateProductCommand(
                 id,
                 request.CategoryId,
@@ -249,6 +110,16 @@ namespace ECommerce.Api.Endpoints
             );
 
             var result = await handler.HandleAsync(cmd, ct);
+
+            if (result.ErrorType == ErrorType.NotFound)
+            {
+                return TypedResults.Problem(new ProblemDetails
+                {
+                    Title = "Product not Found",
+                    Status = StatusCodes.Status404NotFound,
+                    Detail = "Product was not found"
+                });
+            }
 
             if (result.IsFailure)
             {
@@ -268,19 +139,19 @@ namespace ECommerce.Api.Endpoints
             [FromServices] DeleteProductHandler handler,
             CancellationToken ct)
         {
-            if (id == Guid.Empty)
+            var cmd = new DeleteProductCommand(id);
+
+            var result = await handler.HandleAsync(cmd, ct);
+
+            if (result.ErrorType == ErrorType.NotFound)
             {
                 return TypedResults.Problem(new ProblemDetails
                 {
-                    Title = "Empty Id",
-                    Status = StatusCodes.Status400BadRequest,
-                    Detail = "Id cannot be empty"
+                    Title = "Product not found",
+                    Status = StatusCodes.Status404NotFound,
+                    Detail = "Product was not found"
                 });
             }
-
-            var command = new DeleteProductCommand(id);
-
-            var result = await handler.HandleAsync(command, ct);
 
             if (result.IsFailure)
             {

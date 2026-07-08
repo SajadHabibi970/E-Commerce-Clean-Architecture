@@ -26,20 +26,10 @@ namespace ECommerce.Application.Queries
 
             if (product == null)
             {
-                return Result<ProductDto>.Failure("Product not found");
+                return Result<ProductDto>.NotFound("Product not found");
             }
 
-            var dto = new ProductDto
-            {
-                Id = product.Id,
-                CategoryId = product.CategoryId,
-                Name = product.Name,
-                Description = product.Description,
-                ArticleNumber = product.ArticleNumber,
-                ImageUrl = product.ImageUrl,
-                Price = product.Price,
-                StockQuantity = product.StockQuantity
-            };
+            var dto = product.ToDto();
 
             return Result<ProductDto>.Success(dto);
         }
