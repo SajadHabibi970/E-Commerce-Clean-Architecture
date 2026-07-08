@@ -239,7 +239,7 @@ namespace ECommerce.Tests.Domain
             order.MarkAsPaid();
 
             //Assert
-            Assert.Throws<DomainException>(() =>
+            Assert.Throws<InvalidOrderStatusException>(() =>
             order.MarkAsPaid());
         }
 
@@ -277,7 +277,7 @@ namespace ECommerce.Tests.Domain
             );
 
             // Act & Assert
-            Assert.Throws<DomainException>(() =>
+            Assert.Throws<InvalidOrderStatusException>(() =>
             order.MarkAsProcessing());
         }
 
@@ -316,7 +316,7 @@ namespace ECommerce.Tests.Domain
             );
 
             // Act & Assert
-            Assert.Throws<DomainException>(() =>
+            Assert.Throws<InvalidOrderStatusException>(() =>
             order.MarkAsShipped());
         }
 
@@ -356,7 +356,7 @@ namespace ECommerce.Tests.Domain
             );
 
             // Act & Assert
-            Assert.Throws<DomainException>(() =>
+            Assert.Throws<InvalidOrderStatusException>(() =>
             order.MarkAsDelivered());
         }
 
@@ -399,7 +399,7 @@ namespace ECommerce.Tests.Domain
             order.MarkAsDelivered();
 
             // Assert
-            Assert.Throws<DomainException>(() =>
+            Assert.Throws<InvalidOrderStatusException>(() =>
             order.Cancel());
         }
 
@@ -421,7 +421,7 @@ namespace ECommerce.Tests.Domain
             order.MarkAsShipped();
 
             // Assert
-            Assert.Throws<DomainException>(() =>
+            Assert.Throws<InvalidOrderStatusException>(() =>
             order.Cancel());
         }
 
@@ -441,7 +441,7 @@ namespace ECommerce.Tests.Domain
             order.Cancel();
 
             // Assert
-            Assert.Throws<DomainException>(() =>
+            Assert.Throws<InvalidOrderStatusException>(() =>
             order.Cancel());
         }
     }

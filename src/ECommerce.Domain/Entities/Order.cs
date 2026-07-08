@@ -76,7 +76,7 @@ namespace ECommerce.Domain.Entities
         {
             if (Status != OrderStatus.Pending)
             {
-                throw new DomainException("Only pending orders can be marked as paid.");
+                throw new InvalidOrderStatusException("Only pending orders can be marked as paid.");
             }
 
             Status = OrderStatus.Paid;
@@ -87,7 +87,7 @@ namespace ECommerce.Domain.Entities
         {
             if (Status != OrderStatus.Paid)
             {
-                throw new DomainException("Only paid orders can be marked as processing");
+                throw new InvalidOrderStatusException("Only paid orders can be marked as processing");
             }
 
             Status = OrderStatus.Processing;
@@ -98,7 +98,7 @@ namespace ECommerce.Domain.Entities
         {
             if (Status != OrderStatus.Processing)
             {
-                throw new DomainException("Only processing orders can be marked as shipped");
+                throw new InvalidOrderStatusException("Only processing orders can be marked as shipped");
             }
 
             Status = OrderStatus.Shipped;
@@ -109,7 +109,7 @@ namespace ECommerce.Domain.Entities
         {
             if (Status != OrderStatus.Shipped)
             {
-                throw new DomainException("Only shipped orders can be marked as delivered");
+                throw new InvalidOrderStatusException("Only shipped orders can be marked as delivered");
             }
 
             Status = OrderStatus.Delivered;
@@ -120,7 +120,7 @@ namespace ECommerce.Domain.Entities
         {
             if (Status == OrderStatus.Delivered || Status == OrderStatus.Shipped || Status == OrderStatus.Cancelled)
             {
-                throw new DomainException("This order can no longer be cancelled");
+                throw new InvalidOrderStatusException("This order can no longer be cancelled");
             }
 
             Status = OrderStatus.Cancelled;
