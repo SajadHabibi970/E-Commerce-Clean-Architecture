@@ -19,9 +19,9 @@ namespace ECommerce.Domain.Entities
         public Customer(string firstName, string lastName, string email, string? phoneNumber, string? address)
         {
             Id = Guid.NewGuid();
-            FirstName = firstName?.Trim();
-            LastName = lastName?.Trim();
-            Email = email?.Trim();
+            FirstName = firstName.Trim();
+            LastName = lastName.Trim();
+            Email = email.Trim();
             PhoneNumber = phoneNumber?.Trim();
             Address = address?.Trim();
             IsActive = true;
@@ -92,9 +92,9 @@ namespace ECommerce.Domain.Entities
         {
             EnsureNotDeleted();
 
-            FirstName = firstName?.Trim();
-            LastName = lastName?.Trim();
-            Email = email?.Trim();
+            FirstName = firstName.Trim();
+            LastName = lastName.Trim();
+            Email = email.Trim();
             PhoneNumber = phoneNumber?.Trim();
             Address = address?.Trim();
 

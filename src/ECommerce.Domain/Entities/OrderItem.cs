@@ -20,8 +20,8 @@ namespace ECommerce.Domain.Entities
             Id = Guid.NewGuid();
             OrderId = orderId;
             ProductId = productId;
-            ProductName = productName?.Trim();
-            ArticleNumber = articleNumber?.Trim();
+            ProductName = productName.Trim();
+            ArticleNumber = articleNumber.Trim();
             Quantity = quantity;
             UnitPrice = unitPrice;
             TotalPrice = quantity * unitPrice;

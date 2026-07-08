@@ -18,7 +18,7 @@ namespace ECommerce.Domain.Entities
         public Category(string name, string? description)
         {
             Id = Guid.NewGuid();
-            Name = name?.Trim();
+            Name = name.Trim();
             Description = description?.Trim();
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = null;
@@ -72,7 +72,7 @@ namespace ECommerce.Domain.Entities
         {
             EnsureNotDeleted();
 
-            Name = name?.Trim();
+            Name = name.Trim();
             Description = description?.Trim();
             UpdatedAt = DateTime.UtcNow;
 

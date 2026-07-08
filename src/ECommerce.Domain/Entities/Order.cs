@@ -21,7 +21,7 @@ namespace ECommerce.Domain.Entities
         {
             Id = Guid.NewGuid();
             CustomerId = customerId;
-            OrderNumber = orderNumber?.Trim();
+            OrderNumber = orderNumber.Trim();
             Status = OrderStatus.Pending;
             TotalAmount = 0;
             ShippingAddress = shippingAddress;

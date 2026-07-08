@@ -22,10 +22,10 @@ namespace ECommerce.Domain.Entities
         {
             Id = Guid.NewGuid();
             CategoryId = categoryId;
-            Name = name?.Trim();
+            Name = name.Trim();
             Description = description?.Trim();
-            ArticleNumber = articleNumber?.Trim();
-            ImageUrl = imageUrl?.Trim();
+            ArticleNumber = articleNumber.Trim();
+            ImageUrl = imageUrl.Trim();
             Price = price;
             StockQuantity = stockQuantity;
             IsActive = true;
@@ -107,10 +107,10 @@ namespace ECommerce.Domain.Entities
             EnsureNotDeleted();
 
             CategoryId = categoryId;
-            Name = name?.Trim();
+            Name = name.Trim();
             Description = description?.Trim();
-            ArticleNumber = articleNumber?.Trim();
-            ImageUrl = imageUrl?.Trim();
+            ArticleNumber = articleNumber.Trim();
+            ImageUrl = imageUrl.Trim();
             Price = price;
             StockQuantity = stockQuantity;
             UpdatedAt = DateTime.UtcNow;
