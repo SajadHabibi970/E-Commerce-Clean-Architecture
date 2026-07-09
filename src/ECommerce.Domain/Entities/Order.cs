@@ -11,6 +11,7 @@ namespace ECommerce.Domain.Entities
         public string OrderNumber { get; private set; }
         public OrderStatus Status { get; private set; }
         public decimal TotalAmount { get; private set; }
+        public PaymentStatus PaymentStatus { get; private set; }
         public Address ShippingAddress { get; private set; }
         public Address BillingAddress { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -24,6 +25,7 @@ namespace ECommerce.Domain.Entities
             OrderNumber = orderNumber.Trim();
             Status = OrderStatus.Pending;
             TotalAmount = 0;
+            PaymentStatus = PaymentStatus.Pending;
             ShippingAddress = shippingAddress;
             BillingAddress = billingAddress;
             CreatedAt = DateTime.UtcNow;
@@ -75,18 +77,18 @@ namespace ECommerce.Domain.Entities
 
         public void MarkAsPaid()
         {
-            if (Status != OrderStatus.Pending)
+            if (PaymentStatus != PaymentStatus.Pending)
             {
                 throw new InvalidOrderStatusException("Only pending orders can be marked as paid.");
             }
 
-            Status = OrderStatus.Paid;
+            PaymentStatus = PaymentStatus.Paid;
             UpdatedAt = DateTime.UtcNow;
         }
 
         public void MarkAsProcessing()
         {
-            if (Status != OrderStatus.Paid)
+            if (PaymentStatus != PaymentStatus.Paid)
             {
                 throw new InvalidOrderStatusException("Only paid orders can be marked as processing");
             }
@@ -114,6 +116,17 @@ namespace ECommerce.Domain.Entities
             }
 
             Status = OrderStatus.Delivered;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void MarkAsRefunded()
+        {
+            if (PaymentStatus != PaymentStatus.Paid)
+            {
+                throw new InvalidOrderStatusException("Cannot refund something that has not been paid");
+            }
+
+            PaymentStatus = PaymentStatus.Refunded;
             UpdatedAt = DateTime.UtcNow;
         }
 

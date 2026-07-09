@@ -258,7 +258,7 @@ namespace ECommerce.Tests.Domain
             order.MarkAsPaid();
 
             // Assert
-            Assert.Equal(OrderStatus.Paid, order.Status);
+            Assert.Equal(PaymentStatus.Paid, order.PaymentStatus);
             Assert.NotNull(order.UpdatedAt);
         }
 
@@ -517,6 +517,45 @@ namespace ECommerce.Tests.Domain
             // Act & Assert
             Assert.Throws<ProductOutOfStockException>(() =>
             order.AddOrderItem(orderItem, product));
+        }
+
+        [Fact]
+        public void MarkAsRefunded_ShouldSetPaymentStatusToRefunded_WhenOrderIsPaid()
+        {
+            // Arrange
+            var customerId = Guid.NewGuid();
+            var order = new Order(
+                customerId,
+                "ORD-001",
+                new Address("Storgatan 1", "Stockholm", "11122", "Sweden"),
+                new Address("Storgatan 1", "Stockholm", "11122", "Sweden")
+            );
+
+            order.MarkAsPaid();
+
+            // Act
+            order.MarkAsRefunded();
+
+            // Assert
+            Assert.Equal(PaymentStatus.Refunded, order.PaymentStatus);
+            Assert.NotNull(order.UpdatedAt);
+        }
+
+        [Fact]
+        public void MarkAsRefunded_ShouldThrowException_WhenOrderIsNotPaid()
+        {
+            // Arrange
+            var customerId = Guid.NewGuid();
+            var order = new Order(
+                customerId,
+                "ORD-001",
+                new Address("Storgatan 1", "Stockholm", "11122", "Sweden"),
+                new Address("Storgatan 1", "Stockholm", "11122", "Sweden")
+            );
+
+            // Act & Assert
+            Assert.Throws<InvalidOrderStatusException>(() =>
+            order.MarkAsRefunded());
         }
     }
 }
