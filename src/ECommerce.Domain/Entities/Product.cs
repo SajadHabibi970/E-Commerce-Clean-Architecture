@@ -133,5 +133,18 @@ namespace ECommerce.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
             DeletedAt = DateTime.UtcNow;
         }
+
+        public void ReduceStock(int quantity)
+        {
+            EnsureNotDeleted();
+
+            if (quantity > StockQuantity)
+            {
+                throw new ProductOutOfStockException($"Not enough stock for product '{Name}'. Requested: {quantity}, available: {StockQuantity}");
+            }
+
+            StockQuantity -= quantity;
+            UpdatedAt = DateTime.UtcNow;
+        }
     }
 }

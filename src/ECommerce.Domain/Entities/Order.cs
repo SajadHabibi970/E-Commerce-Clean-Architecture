@@ -11,6 +11,7 @@ namespace ECommerce.Domain.Entities
         public string OrderNumber { get; private set; }
         public OrderStatus Status { get; private set; }
         public decimal TotalAmount { get; private set; }
+        public PaymentStatus PaymentStatus { get; private set; }
         public Address ShippingAddress { get; private set; }
         public Address BillingAddress { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -24,6 +25,7 @@ namespace ECommerce.Domain.Entities
             OrderNumber = orderNumber.Trim();
             Status = OrderStatus.Pending;
             TotalAmount = 0;
+            PaymentStatus = PaymentStatus.Pending;
             ShippingAddress = shippingAddress;
             BillingAddress = billingAddress;
             CreatedAt = DateTime.UtcNow;
@@ -55,13 +57,14 @@ namespace ECommerce.Domain.Entities
             }
         }
 
-        public void AddOrderItem(OrderItem item)
+        public void AddOrderItem(OrderItem item, Product product)
         {
             if(item == null)
             {
                 throw new DomainException("OrderItem cannot be null");
             }
 
+            product.ReduceStock(item.Quantity);
             OrderItems.Add(item);
             CalculateTotalAmount();
             UpdatedAt = DateTime.UtcNow;
@@ -74,20 +77,20 @@ namespace ECommerce.Domain.Entities
 
         public void MarkAsPaid()
         {
-            if (Status != OrderStatus.Pending)
+            if (PaymentStatus != PaymentStatus.Pending)
             {
-                throw new DomainException("Only pending orders can be marked as paid.");
+                throw new InvalidOrderStatusException("Only pending orders can be marked as paid.");
             }
 
-            Status = OrderStatus.Paid;
+            PaymentStatus = PaymentStatus.Paid;
             UpdatedAt = DateTime.UtcNow;
         }
 
         public void MarkAsProcessing()
         {
-            if (Status != OrderStatus.Paid)
+            if (PaymentStatus != PaymentStatus.Paid)
             {
-                throw new DomainException("Only paid orders can be marked as processing");
+                throw new InvalidOrderStatusException("Only paid orders can be marked as processing");
             }
 
             Status = OrderStatus.Processing;
@@ -98,7 +101,7 @@ namespace ECommerce.Domain.Entities
         {
             if (Status != OrderStatus.Processing)
             {
-                throw new DomainException("Only processing orders can be marked as shipped");
+                throw new InvalidOrderStatusException("Only processing orders can be marked as shipped");
             }
 
             Status = OrderStatus.Shipped;
@@ -109,10 +112,21 @@ namespace ECommerce.Domain.Entities
         {
             if (Status != OrderStatus.Shipped)
             {
-                throw new DomainException("Only shipped orders can be marked as delivered");
+                throw new InvalidOrderStatusException("Only shipped orders can be marked as delivered");
             }
 
             Status = OrderStatus.Delivered;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void MarkAsRefunded()
+        {
+            if (PaymentStatus != PaymentStatus.Paid)
+            {
+                throw new InvalidOrderStatusException("Cannot refund something that has not been paid");
+            }
+
+            PaymentStatus = PaymentStatus.Refunded;
             UpdatedAt = DateTime.UtcNow;
         }
 
@@ -120,7 +134,7 @@ namespace ECommerce.Domain.Entities
         {
             if (Status == OrderStatus.Delivered || Status == OrderStatus.Shipped || Status == OrderStatus.Cancelled)
             {
-                throw new DomainException("This order can no longer be cancelled");
+                throw new InvalidOrderStatusException("This order can no longer be cancelled");
             }
 
             Status = OrderStatus.Cancelled;
