@@ -26,8 +26,17 @@ namespace ECommerce.Infrastructure.Persistence.Configurations
             builder.Property(p => p.ImageUrl)
             .HasMaxLength(500);
 
-            builder.Property(p => p.Price)
-            .HasPrecision(18, 2);
+            builder.OwnsOne(p => p.Price, price =>
+            {
+                price.Property(m => m.Amount)
+                .HasColumnName("Price_Amount")
+                .HasPrecision(18, 2);
+
+                price.Property(m => m.Currency)
+                .HasColumnName("Price_Currency")
+                .HasMaxLength(3)
+                .IsRequired();
+            });
 
             builder.Property(p => p.StockQuantity)
             .IsRequired();

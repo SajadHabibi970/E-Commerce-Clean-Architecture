@@ -1,5 +1,6 @@
 using ECommerce.Application.Commands;
 using ECommerce.Domain.Entities;
+using ECommerce.Domain.ValueObjects;
 using ECommerce.Tests.Fakes;
 
 namespace ECommerce.Tests.Application.Products
@@ -18,7 +19,7 @@ namespace ECommerce.Tests.Application.Products
                 "Gaming laptop",
                 "ART-001",
                 "laptop.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 10
             );
             repository.Products.Add(product);

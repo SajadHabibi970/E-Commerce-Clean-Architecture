@@ -14,7 +14,7 @@ namespace ECommerce.Application.DTOs
                 Description = product.Description,
                 ArticleNumber = product.ArticleNumber,
                 ImageUrl = product.ImageUrl,
-                Price = product.Price,
+                Price = product.Price.Amount,
                 StockQuantity = product.StockQuantity
             };
         }

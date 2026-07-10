@@ -1,5 +1,6 @@
 using ECommerce.Application.Queries;
 using ECommerce.Domain.Entities;
+using ECommerce.Domain.ValueObjects;
 using ECommerce.Tests.Fakes;
 
 namespace ECommerce.Tests.Application.Products
@@ -18,7 +19,7 @@ namespace ECommerce.Tests.Application.Products
                 "Gaming laptop",
                 "ART-001",
                 "laptop.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 10
             );
 
@@ -35,7 +36,7 @@ namespace ECommerce.Tests.Application.Products
             Assert.NotNull(result.Value);
             Assert.Equal(product.Id, result.Value.Id);
             Assert.Equal(product.Name, result.Value.Name);
-            Assert.Equal(product.Price, result.Value.Price);
+            Assert.Equal(product.Price.Amount, result.Value.Price);
         }
 
         [Fact]

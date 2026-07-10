@@ -1,4 +1,5 @@
 using ECommerce.Domain.Entities;
+using ECommerce.Domain.ValueObjects;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,7 @@ namespace ECommerce.Tests.Infrastructure
                 "Gaming laptop",
                 "ART-001",
                 "laptop.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 10
             );
 
@@ -61,7 +62,7 @@ namespace ECommerce.Tests.Infrastructure
                 "Gaming laptop",
                 "ART-001",
                 "laptop.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 10
             );
 
@@ -106,7 +107,7 @@ namespace ECommerce.Tests.Infrastructure
                 "Gaming laptop",
                 "ART-001",
                 "laptop.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 10
             );
             
@@ -116,7 +117,7 @@ namespace ECommerce.Tests.Infrastructure
                 "Gaming mouse",
                 "ART-002",
                 "mouse.jpg",
-                100m,
+                new Money(100m, "SEK"),
                 10
             );
 
@@ -161,7 +162,7 @@ namespace ECommerce.Tests.Infrastructure
                 "Gaming laptop",
                 "ART-001",
                 "laptop.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 10
             );
             await repository.AddAsync(product);
@@ -174,7 +175,7 @@ namespace ECommerce.Tests.Infrastructure
                 "Gaming mouse",
                 "ART-002",
                 "mouse.jpg",
-                100m,
+                new Money(100m, "SEK"),
                 10
             );
             await repository.UpdateAsync(product);
@@ -187,7 +188,7 @@ namespace ECommerce.Tests.Infrastructure
             Assert.Equal("Gaming mouse", updatedProduct.Description);
             Assert.Equal("ART-002", updatedProduct.ArticleNumber);
             Assert.Equal("mouse.jpg", updatedProduct.ImageUrl);
-            Assert.Equal(100m, updatedProduct.Price);
+            Assert.Equal(100m, updatedProduct.Price.Amount);
             Assert.Equal(10, updatedProduct.StockQuantity);
             Assert.NotNull(updatedProduct.UpdatedAt);
         }

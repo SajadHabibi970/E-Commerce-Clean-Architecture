@@ -1,4 +1,5 @@
 using ECommerce.Domain.Exceptions;
+using ECommerce.Domain.ValueObjects;
 
 namespace ECommerce.Domain.Entities
 {
@@ -9,7 +10,7 @@ namespace ECommerce.Domain.Entities
     public string? Description { get; private set; }
     public string ArticleNumber { get; private set; }
     public string ImageUrl { get; private set; }
-    public decimal Price { get; private set; }
+    public Money Price { get; private set; }
     public int StockQuantity { get; private set;}
     public bool IsActive { get; private set; }
     public bool IsDeleted { get; private set; }
@@ -18,7 +19,9 @@ namespace ECommerce.Domain.Entities
     public DateTime? UpdatedAt { get; private set; }
     public DateTime? DeletedAt { get; private set; }
 
-    public Product (Guid categoryId, string name, string? description, string articleNumber, string imageUrl, decimal price, int stockQuantity)
+    private Product() { }
+
+    public Product (Guid categoryId, string name, string? description, string articleNumber, string imageUrl, Money price, int stockQuantity)
         {
             var trimmedName = name.Trim();
             var trimmedArticleNumber = articleNumber.Trim();
@@ -38,7 +41,7 @@ namespace ECommerce.Domain.Entities
             UpdatedAt = null;
         }
 
-        private static void EnsureValid(Guid categoryId, string name, string articleNumber, string imageUrl, decimal price, int stockQuantity)
+        private static void EnsureValid(Guid categoryId, string name, string articleNumber, string imageUrl, Money price, int stockQuantity)
         {
             if (categoryId == Guid.Empty)
             {
@@ -60,7 +63,7 @@ namespace ECommerce.Domain.Entities
                 throw new DomainException("ImageUrl is required");
             }
 
-            if (price <= 0)
+            if (price.Amount <= 0)
             {
                 throw new DomainException("Price must be greater than 0");
             }
@@ -105,7 +108,7 @@ namespace ECommerce.Domain.Entities
             }
         }
 
-        public void Edit(Guid categoryId, string name, string? description, string articleNumber, string imageUrl, decimal price, int stockQuantity)
+        public void Edit(Guid categoryId, string name, string? description, string articleNumber, string imageUrl, Money price, int stockQuantity)
         {
             EnsureNotDeleted();
 

@@ -2,6 +2,7 @@ using ECommerce.Application.Common;
 using ECommerce.Application.Interfaces;
 using ECommerce.Domain.Entities;
 using ECommerce.Domain.Exceptions;
+using ECommerce.Domain.ValueObjects;
 
 namespace ECommerce.Application.Commands
 {
@@ -26,7 +27,7 @@ namespace ECommerce.Application.Commands
                 cmd.Description,
                 cmd.ArticleNumber,
                 cmd.ImageUrl,
-                cmd.Price,
+                new Money(cmd.Price, "SEK"),
                 cmd.StockQuantity
                 );
 
