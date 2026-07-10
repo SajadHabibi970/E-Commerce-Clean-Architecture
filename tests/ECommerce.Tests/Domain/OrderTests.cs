@@ -138,7 +138,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop",
                 "ART-001",
                 "laptop.jpg",
-                1000m,
+                new Money(1000m ,"SEK"),
                 100
             );
 
@@ -170,7 +170,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop",
                 "ART-001",
                 "laptop.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 100
             );
 
@@ -217,7 +217,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop",
                 "ART-001",
                 "laptop.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 100
             );
 
@@ -227,7 +227,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming mouse",
                 "ART-002",
                 "mouse.jpg",
-                100m,
+                new Money(100m, "SEK"),
                 100
             );
             // Act
@@ -502,7 +502,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop",
                 "ART-001",
                 "latop.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 1
             );
             var orderItem = new OrderItem(

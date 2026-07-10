@@ -1,5 +1,6 @@
 using ECommerce.Application.Commands;
 using ECommerce.Domain.Entities;
+using ECommerce.Domain.ValueObjects;
 using ECommerce.Tests.Fakes;
 
 namespace ECommerce.Tests.Application.Products
@@ -18,7 +19,7 @@ namespace ECommerce.Tests.Application.Products
                 "Gaming laptop",
                 "ART-001",
                 "laptop.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 10
             );
             repository.Products.Add(product);
@@ -45,7 +46,7 @@ namespace ECommerce.Tests.Application.Products
             Assert.Equal("Gaming mouse", product.Description);
             Assert.Equal("ART-002",product.ArticleNumber);
             Assert.Equal("mouse.jpg", product.ImageUrl);
-            Assert.Equal(100m, product.Price);
+            Assert.Equal(100m, product.Price.Amount);
             Assert.Equal(10, product.StockQuantity);
             Assert.NotNull(product.UpdatedAt);
         }

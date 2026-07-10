@@ -24,7 +24,7 @@ namespace ECommerce.Tests.Domain
             description, 
             articleNumber,
             imageUrl,
-            price,
+            new Money(price, "SEK"),
             stockQuantity);
 
             // Assert
@@ -33,7 +33,7 @@ namespace ECommerce.Tests.Domain
             Assert.Equal(description, product.Description);
             Assert.Equal(articleNumber, product.ArticleNumber);
             Assert.Equal(imageUrl, product.ImageUrl);
-            Assert.Equal(price, product.Price);
+            Assert.Equal(price, product.Price.Amount);
             Assert.Equal(stockQuantity, product.StockQuantity);
 
             Assert.True(product.IsActive);
@@ -61,7 +61,7 @@ namespace ECommerce.Tests.Domain
             description, 
             articleNumber,
             imageUrl,
-            price,
+            new Money(price, "SEK"),
             stockQuantity));
         }
 
@@ -84,7 +84,7 @@ namespace ECommerce.Tests.Domain
             description, 
             articleNumber,
             imageUrl,
-            price,
+            new Money(price, "SEK"),
             stockQuantity));
         }
 
@@ -107,7 +107,7 @@ namespace ECommerce.Tests.Domain
             description, 
             articleNumber,
             imageUrl,
-            price,
+            new Money(price, "SEK"),
             stockQuantity));
         }
 
@@ -130,7 +130,7 @@ namespace ECommerce.Tests.Domain
             description, 
             articleNumber,
             imageUrl,
-            price,
+            new Money(price, "SEK"),
             stockQuantity));
         }
 
@@ -154,7 +154,7 @@ namespace ECommerce.Tests.Domain
                 description,
                 articleNumber,
                 imageUrl,
-                price,
+                new Money(price, "SEK"),
                 stockQuantity
             ));
         }
@@ -179,7 +179,7 @@ namespace ECommerce.Tests.Domain
                 description,
                 articleNumber,
                 imageUrl,
-                price,
+                new Money(price, "SEK"),
                 stockQuantity
             ));
         }
@@ -189,7 +189,7 @@ namespace ECommerce.Tests.Domain
         {
             // Arrange
             var categoryId = Guid.NewGuid();
-            var product = new Product(categoryId, "Laptop", "Gaming laptop", "ART-123", "laptop.jpg", 1000m, 10);
+            var product = new Product(categoryId, "Laptop", "Gaming laptop", "ART-123", "laptop.jpg", new Money(1000m, "SEK"), 10);
 
             // Act
             product.Edit(
@@ -198,7 +198,7 @@ namespace ECommerce.Tests.Domain
                 "Office camputer",
                 "ART-999",
                 "camputer.jpg",
-                5000m,
+                new Money(5000m, "SEK"),
                 15
             );
 
@@ -208,7 +208,7 @@ namespace ECommerce.Tests.Domain
             Assert.Equal("Office camputer", product.Description);
             Assert.Equal("ART-999", product.ArticleNumber);
             Assert.Equal("camputer.jpg", product.ImageUrl);
-            Assert.Equal(5000m, product.Price);
+            Assert.Equal(5000m, product.Price.Amount);
             Assert.Equal(15, product.StockQuantity);
             Assert.NotNull(product.UpdatedAt);
         }
@@ -223,7 +223,7 @@ namespace ECommerce.Tests.Domain
             "Gaming laptop", 
             "ART-123", 
             "laptop.jpg", 
-            1000m, 
+            new Money(1000m, "SEK"), 
             10);
 
             // Act & Assert
@@ -234,7 +234,7 @@ namespace ECommerce.Tests.Domain
                 "Office camputer",
                 "ART-999",
                 "camputer.jpg",
-                5000m,
+                new Money(5000m, "SEK"),
                 15
             ));
         }
@@ -250,7 +250,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop", 
                 "ART-123", 
                 "laptop.jpg", 
-                1000m, 
+                new Money(1000m, "SEK"), 
                 10);
 
             // Act & Assert
@@ -261,7 +261,7 @@ namespace ECommerce.Tests.Domain
                 "Office camputer",
                 "ART-999",
                 "camputer.jpg",
-                0,
+                new Money(0m, "SEK"),
                 15
             ));
         }
@@ -277,7 +277,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop", 
                 "ART-123", 
                 "laptop.jpg", 
-                1000m, 
+                new Money(1000m, "SEK"), 
                 10);
 
             // Act & Assert
@@ -288,7 +288,7 @@ namespace ECommerce.Tests.Domain
                 "Office camputer",
                 "ART-999",
                 "camputer.jpg",
-                -100,
+                new Money(-100m, "SEK"),
                 15
             ));
         }
@@ -304,7 +304,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop", 
                 "ART-123", 
                 "laptop.jpg", 
-                1000m, 
+                new Money(1000m, "SEK"), 
                 10);
 
             // Act & Assert
@@ -315,7 +315,7 @@ namespace ECommerce.Tests.Domain
                 "Office camputer",
                 "ART-999",
                 "camputer.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 15
             ));
         }
@@ -331,7 +331,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop", 
                 "ART-123", 
                 "laptop.jpg", 
-                1000m, 
+                new Money(1000m, "SEK"), 
                 10);
 
             // Act & Assert
@@ -342,7 +342,7 @@ namespace ECommerce.Tests.Domain
                 "Office camputer",
                 "ART-999",
                 "camputer.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 -10
             ));
         }
@@ -358,7 +358,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop", 
                 "ART-123", 
                 "laptop.jpg", 
-                1000m, 
+                new Money(1000m, "SEK"), 
                 10);
 
             // Act
@@ -381,7 +381,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop", 
                 "ART-123", 
                 "laptop.jpg", 
-                1000m, 
+                new Money(1000m, "SEK"), 
                 10);
 
             // Act
@@ -403,7 +403,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop", 
                 "ART-123", 
                 "laptop.jpg", 
-                1000m, 
+                new Money(1000m, "SEK"), 
                 10);
 
             // Act
@@ -425,7 +425,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop",
                 "ART-001",
                 "latop.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 10
             );
 
@@ -447,7 +447,7 @@ namespace ECommerce.Tests.Domain
                 "Gaming laptop",
                 "ART-001",
                 "latop.jpg",
-                1000m,
+                new Money(1000m, "SEK"),
                 1
             );
 
