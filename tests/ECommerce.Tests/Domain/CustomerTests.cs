@@ -1,5 +1,6 @@
 using ECommerce.Domain.Entities;
 using ECommerce.Domain.Exceptions;
+using ECommerce.Domain.ValueObjects;
 
 namespace ECommerce.Tests.Domain
 {
@@ -13,7 +14,7 @@ namespace ECommerce.Tests.Domain
             var lastName = "Dou";
             var email = "johndou@hotmail.com";
             var phoneNumber = "0721234567";
-            var address = "Stockholm";
+            var address = new Address("Storgatan1", "Stckholm", "11122", "Sweden");
 
             // Act
             var customer = new Customer(
@@ -45,7 +46,7 @@ namespace ECommerce.Tests.Domain
             var lastName = "Dou";
             var email = "johndou@hotmail.com";
             var phoneNumber = "0721234567";
-            var address = "Stockholm";
+            var address = new Address("Storgatan1", "Stckholm", "11122", "Sweden");
 
             // Act & Assert
             Assert.Throws<DomainException>(() =>
@@ -66,7 +67,7 @@ namespace ECommerce.Tests.Domain
             var lastName = "";
             var email = "johndou@hotmail.com";
             var phoneNumber = "0721234567";
-            var address = "Stockholm";
+            var address = new Address("Storgatan1", "Stckholm", "11122", "Sweden");
 
             // Act & Assert
             Assert.Throws<DomainException>(() =>
@@ -87,7 +88,7 @@ namespace ECommerce.Tests.Domain
             var lastName = "Doe";
             var email = "";
             var phoneNumber = "0721234567";
-            var address = "Stockholm";
+            var address = new Address("Storgatan1", "Stckholm", "11122", "Sweden");
 
             // Act & Assert
             Assert.Throws<DomainException>(() =>
@@ -108,7 +109,7 @@ namespace ECommerce.Tests.Domain
             var lastName = "Doe";
             var email = "johndouhotmail.com";
             var phoneNumber = "0721234567";
-            var address = "Stockholm";
+            var address = new Address("Storgatan1", "Stckholm", "11122", "Sweden");
 
             // Act & Assert
             Assert.Throws<DomainException>(() =>
@@ -130,7 +131,7 @@ namespace ECommerce.Tests.Domain
                 "Dou",
                 "johndou@hotmail.com",
                 "0721234567",
-                "Stockholm"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             );
 
             // Act
@@ -139,7 +140,7 @@ namespace ECommerce.Tests.Domain
                 "Smith",
                 "janesmith@hotmail.com",
                 "0727654321",
-                "Malmö"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             );
 
             // Assert
@@ -147,7 +148,6 @@ namespace ECommerce.Tests.Domain
             Assert.Equal("Smith", customer.LastName);
             Assert.Equal("janesmith@hotmail.com", customer.Email);
             Assert.Equal("0727654321", customer.PhoneNumber);
-            Assert.Equal("Malmö", customer.Address);
             Assert.NotNull(customer.UpdatedAt);
         }
 
@@ -160,7 +160,7 @@ namespace ECommerce.Tests.Domain
                 "Dou",
                 "johndou@hotmail.com",
                 "0721234567",
-                "Stockholm"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             );
 
             // Act & Assert
@@ -170,7 +170,7 @@ namespace ECommerce.Tests.Domain
                 "Smith",
                 "janesmith@hotmail.com",
                 "0727654321",
-                "Malmö"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             ));
         }
 
@@ -183,7 +183,7 @@ namespace ECommerce.Tests.Domain
                 "Dou",
                 "johndou@hotmail.com",
                 "0721234567",
-                "Stockholm"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             );
 
             // Act & Assert
@@ -193,7 +193,7 @@ namespace ECommerce.Tests.Domain
                 "",
                 "janesmith@hotmail.com",
                 "0727654321",
-                "Malmö"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             ));
         }
 
@@ -206,7 +206,7 @@ namespace ECommerce.Tests.Domain
                 "Dou",
                 "johndou@hotmail.com",
                 "0721234567",
-                "Stockholm"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             );
 
             // Act & Assert
@@ -216,7 +216,7 @@ namespace ECommerce.Tests.Domain
                 "Smith",
                 "",
                 "0727654321",
-                "Malmö"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             ));
         }
 
@@ -229,7 +229,7 @@ namespace ECommerce.Tests.Domain
                 "Dou",
                 "johndou@hotmail.com",
                 "0721234567",
-                "Stockholm"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             );
 
             // Act & Assert
@@ -239,7 +239,7 @@ namespace ECommerce.Tests.Domain
                 "Smith",
                 "janesmithhotmail.com",
                 "0727654321",
-                "Malmö"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             ));
         }
 
@@ -252,7 +252,7 @@ namespace ECommerce.Tests.Domain
                 "Doe",
                 "johndoe@hotmail.com",
                 "0721234567",
-                "Stockholm"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             );
 
             //Act
@@ -272,7 +272,7 @@ namespace ECommerce.Tests.Domain
                 "Doe",
                 "johndoe@hotmail.com",
                 "0721234567",
-                "Stockholm"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             );
 
             // Act
@@ -293,7 +293,7 @@ namespace ECommerce.Tests.Domain
                 "Doe",
                 "johndoe@hotmail.com",
                 "0721234567",
-                "Stockholm"
+                new Address("Storgatan1", "Stckholm", "11122", "Sweden")
             );
 
             // Act

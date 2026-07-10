@@ -1,4 +1,5 @@
 using ECommerce.Domain.Exceptions;
+using ECommerce.Domain.ValueObjects;
 
 namespace ECommerce.Domain.Entities
 {
@@ -9,14 +10,14 @@ namespace ECommerce.Domain.Entities
         public string LastName { get; private set; } = null!;
         public string Email { get; private set; } = null!;
         public string? PhoneNumber { get; private set; }
-        public string? Address { get; private set; }
+        public Address? Address { get; private set; }
         public bool IsActive { get; private set; }
         public bool IsDeleted { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? UpdatedAt { get; private set; }
         public DateTime? DeletedAt { get; private set; }
 
-        public Customer(string firstName, string lastName, string email, string? phoneNumber, string? address)
+        public Customer(string firstName, string lastName, string email, string? phoneNumber, Address? address)
         {
             var trimmedFirstName = firstName.Trim();
             var trimmedLastName = lastName.Trim();
@@ -29,7 +30,7 @@ namespace ECommerce.Domain.Entities
             LastName = trimmedLastName;
             Email = trimmedEmail;
             PhoneNumber = phoneNumber?.Trim();
-            Address = address?.Trim();
+            Address = address;
             IsActive = true;
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = null;
@@ -92,7 +93,7 @@ namespace ECommerce.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void Edit(string firstName, string lastName, string email, string? phoneNumber, string? address)
+        public void Edit(string firstName, string lastName, string email, string? phoneNumber, Address? address)
         {
             EnsureNotDeleted();
 
@@ -106,7 +107,7 @@ namespace ECommerce.Domain.Entities
             LastName = trimmedLastName;
             Email = trimmedEmail;
             PhoneNumber = phoneNumber?.Trim();
-            Address = address?.Trim();
+            Address = address;
 
             UpdatedAt = DateTime.UtcNow;
         }
